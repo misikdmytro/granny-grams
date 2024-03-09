@@ -3,9 +3,9 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
-	Environment    string
-	OpenAPIBaseURL string
-	OpenAPIToken   string
+	Environment   string
+	OpenAIBaseURL string
+	OpenAIToken   string
 }
 
 func LoadConfig() (*Config, error) {

@@ -15,13 +15,13 @@ type ImageGenerationResponse struct {
 	Data []ImageGenerationData `json:"data"`
 }
 
-type OpenAPIErrorData struct {
+type OpenAIErrorData struct {
 	Code    *string `json:"code"`
 	Message string  `json:"message"`
 	Param   *string `json:"param"`
 	Type    string  `json:"type"`
 }
 
-type OpenAPIErrorResponse struct {
-	Error OpenAPIErrorData `json:"error"`
+type OpenAIErrorResponse struct {
+	Error OpenAIErrorData `json:"error"`
 }

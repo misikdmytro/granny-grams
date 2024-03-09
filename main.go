@@ -24,11 +24,11 @@ func main() {
 	}
 
 	log.Println("Generating image")
-	var oac client.OpenAPIClient
+	var oac client.OpenAIClient
 	if cfg.Environment == "development" {
-		oac = client.NewFakeOpenAPIClient()
+		oac = client.NewFakeOpenAIClient()
 	} else {
-		oac = client.NewOpenAPIClient(cfg.OpenAPIBaseURL, cfg.OpenAPIToken)
+		oac = client.NewOpenAIClient(cfg.OpenAIBaseURL, cfg.OpenAIToken)
 	}
 	resp, err := oac.GenerateImage(ctx, "a holiday cat", 1, "1024x1024")
 	if err != nil {

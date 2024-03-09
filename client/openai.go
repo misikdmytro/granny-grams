@@ -7,18 +7,18 @@ import (
 	"github.com/misikdmytro/granny-grams/model"
 )
 
-type OpenAPIClient interface {
+type OpenAIClient interface {
 	GenerateImage(ctx context.Context, prompt string, n uint8, size string) (model.ImageGenerationResponse, error)
 }
 
-type openAPIClient struct {
+type openAIClient struct {
 	*resty.Client
 }
 
-type fakeOpenAPIClient struct{}
+type fakeOpenAIClient struct{}
 
-// GenerateImage implements OpenAPIClient.
-func (f *fakeOpenAPIClient) GenerateImage(context.Context, string, uint8, string) (model.ImageGenerationResponse, error) {
+// GenerateImage implements OpenAIClient.
+func (f *fakeOpenAIClient) GenerateImage(context.Context, string, uint8, string) (model.ImageGenerationResponse, error) {
 	// This is a fake implementation that returns a single image URL.
 	return model.ImageGenerationResponse{
 		Data: []model.ImageGenerationData{
@@ -29,10 +29,10 @@ func (f *fakeOpenAPIClient) GenerateImage(context.Context, string, uint8, string
 	}, nil
 }
 
-// GenerateImage implements OpenAPIClient.
-func (o *openAPIClient) GenerateImage(ctx context.Context, prompt string, n uint8, size string) (model.ImageGenerationResponse, error) {
+// GenerateImage implements OpenAIClient.
+func (o *openAIClient) GenerateImage(ctx context.Context, prompt string, n uint8, size string) (model.ImageGenerationResponse, error) {
 	var success model.ImageGenerationResponse
-	var fail model.OpenAPIErrorResponse
+	var fail model.OpenAIErrorResponse
 
 	resp, err := o.R().
 		SetContext(ctx).
@@ -52,7 +52,7 @@ func (o *openAPIClient) GenerateImage(ctx context.Context, prompt string, n uint
 
 	if resp.IsError() {
 		return model.ImageGenerationResponse{}, &model.RESTClientError{
-			Message:  "OpenAPI error",
+			Message:  "OpenAI error",
 			Response: fail,
 		}
 	}
@@ -60,15 +60,15 @@ func (o *openAPIClient) GenerateImage(ctx context.Context, prompt string, n uint
 	return success, nil
 }
 
-func NewOpenAPIClient(baseURL string, token string) OpenAPIClient {
+func NewOpenAIClient(baseURL string, token string) OpenAIClient {
 	client := resty.New()
 	client.SetBaseURL(baseURL)
 	client.SetAuthScheme("Bearer")
 	client.SetAuthToken(token)
 
-	return &openAPIClient{client}
+	return &openAIClient{client}
 }
 
-func NewFakeOpenAPIClient() OpenAPIClient {
-	return &fakeOpenAPIClient{}
+func NewFakeOpenAIClient() OpenAIClient {
+	return &fakeOpenAIClient{}
 }
