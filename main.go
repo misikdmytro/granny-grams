@@ -8,6 +8,7 @@ import (
 
 	"github.com/misikdmytro/granny-grams/client"
 	"github.com/misikdmytro/granny-grams/config"
+	"github.com/misikdmytro/granny-grams/processor"
 )
 
 func main() {
@@ -37,6 +38,13 @@ func main() {
 	log.Println("Downloading image")
 	wc := client.NewWebClient()
 	err = wc.DownloadImageToFile(ctx, resp.Data[0].URL, "cat.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Adding text to image")
+	ip := processor.NewImageProcessor()
+	err = ip.AddTextToImage(ctx, "cat.png", "cat-with-text.png", "Happy Holidays!")
 	if err != nil {
 		log.Fatal(err)
 	}

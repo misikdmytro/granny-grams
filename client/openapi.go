@@ -8,7 +8,7 @@ import (
 )
 
 type OpenAPIClient interface {
-	GenerateImage(context.Context, string, uint8, string) (model.ImageGenerationResponse, error)
+	GenerateImage(ctx context.Context, prompt string, n uint8, size string) (model.ImageGenerationResponse, error)
 }
 
 type openAPIClient struct {

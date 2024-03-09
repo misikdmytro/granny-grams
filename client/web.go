@@ -9,7 +9,7 @@ import (
 )
 
 type WebClient interface {
-	DownloadImageToFile(context.Context, string, string) error
+	DownloadImageToFile(ctx context.Context, url, path string) error
 }
 
 type webClient struct {
